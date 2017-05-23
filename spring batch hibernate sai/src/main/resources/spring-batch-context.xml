@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+		http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+	<import resource="classpath:context-model.xml"/>
+
+
+	<!-- JobRepository and JobLauncher are configuration/setup classes -->
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+
+	<bean id="jobLauncher" 	class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+
+
+	<bean id="multiResourceItemReader" class="org.springframework.batch.item.file.MultiResourceItemReader">
+		<property name="resources" value="classpath:csv/ff.txt" />
+		<property name="delegate" ref="flatFileItemReader" />
+  	</bean>
+
+	<!-- ItemReader reads a complete line one by one from input file -->
+	<bean id="flatFileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader"  scope="step">
+
+		<property name="lineMapper">
+
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+
+				<property name="fieldSetMapper">
+					<!-- Mapper which maps each individual items in a record to properties in POJO -->
+					<bean class="com.rajeev.domain.PatientSetMapper" />
+				</property>
+
+				<property name="lineTokenizer">
+					<!-- A tokenizer class to be used when items in input record are separated by specific characters -->
+					<bean class="org.springframework.batch.item.file.transform.FixedLengthTokenizer">
+					<property name="names" value="doctorname,memberid,Patientdisease,Patientpredianosisinfo,Patientmentalhealth,Age,Cigarsmoking,Alcohol,Treatmentstartdate,ProviderId,Estimatedcost,Gender,Description,Abnormalsymptoms,Patienttype,Physician"></property>
+						<property name="columns" value="1-30,31-40,41-70,71-105,106-113,114-117,118-122,123-127,128-139,140-149,150-159,160-167,168-197,198-217,218-232,233-257" />
+					</bean>
+				</property>
+
+			</bean>
+
+		</property>
+
+	</bean>
+
+
+	<!-- ItemWriter which writes data to database -->
+  	<bean id="databaseItemWriter" class="org.springframework.batch.item.database.HibernateItemWriter">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+
+	<!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
+	<bean id="itemProcessor" class="com.rajeev.domain.PatientProcessor" />
+
+	<!-- Optional JobExecutionListener to perform business logic before and after the job -->
+	<bean id="jobListener" class="com.rajeev.domain.PatientJobListener" />
+
+
+	<!-- Actual Job -->
+	<batch:job id="examResultJob">
+		<batch:step id="step1">
+			<batch:tasklet transaction-manager="transactionManager">
+				<batch:chunk reader="multiResourceItemReader" writer="databaseItemWriter"
+					processor="itemProcessor" commit-interval="10" />
+			</batch:tasklet>
+		</batch:step>
+		<batch:listeners>
+			<batch:listener ref="jobListener" />
+		</batch:listeners>
+	</batch:job>
+
+</beans>			

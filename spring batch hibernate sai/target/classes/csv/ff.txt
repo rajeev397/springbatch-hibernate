@@ -1,0 +1,2 @@
+rajeev                        006061    appendixsurgery               nothing                            true    29  yes  no   5/20/2017   789456    $23000    male    take liquids                  no symptoms         inhouse        specialist               
+rohit                         09377     fever                         not applicable                     false   19  no   yes  5/22/2017   87786     $9857     male    high bp                       ellergy             outhouse       surgeon                  

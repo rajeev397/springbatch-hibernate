@@ -1,0 +1,6 @@
+2017-05-23 13:17:21,868 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher  - Job: [FlowJob: [name=examResultJob]] completed with the following parameters: [{}] and the following status: [COMPLETED]
+2017-05-23 13:17:21,868 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher  - Job: [FlowJob: [name=examResultJob]] completed with the following parameters: [{}] and the following status: [COMPLETED]
+2017-05-23 13:46:17,353 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher  - Job: [FlowJob: [name=examResultJob]] completed with the following parameters: [{}] and the following status: [COMPLETED]
+2017-05-23 13:46:17,353 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher  - Job: [FlowJob: [name=examResultJob]] completed with the following parameters: [{}] and the following status: [COMPLETED]
+2017-05-23 13:49:03,287 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher  - Job: [FlowJob: [name=examResultJob]] completed with the following parameters: [{}] and the following status: [COMPLETED]
+2017-05-23 13:49:03,287 [main] INFO  org.springframework.batch.core.launch.support.SimpleJobLauncher  - Job: [FlowJob: [name=examResultJob]] completed with the following parameters: [{}] and the following status: [COMPLETED]
